@@ -16,6 +16,7 @@ plugins {
 
 def nativeTarget = System.getenv('AFFINE_ANDROID_NATIVE_TARGET') ?: 'arm64'
 def nativeAbi = nativeTarget == 'x86_64' ? 'x86_64' : 'arm64-v8a'
+def appVersionName = System.getenv('VERSION_NAME') ?: new groovy.json.JsonSlurper().parseText(file('../../package.json').text).version
 
 apply from: 'capacitor.build.gradle'
 
@@ -28,7 +29,7 @@ android {
         minSdkVersion = rootProject.ext.minSdkVersion
         targetSdkVersion = rootProject.ext.targetSdkVersion
         versionCode = 1
-        versionName = System.getenv('VERSION_NAME') ?: 'v1.0.0-local'
+        versionName = appVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [usesCleartextTraffic: "false"]
         aaptOptions {

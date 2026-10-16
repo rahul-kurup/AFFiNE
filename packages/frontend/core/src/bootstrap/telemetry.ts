@@ -4,13 +4,14 @@ import { APP_SETTINGS_STORAGE_KEY } from '@toeverything/infra/atom';
 tracker.init();
 sentry.init();
 
+// Telemetry is opt-in: disabled by default unless the user explicitly enables it.
 if (typeof localStorage !== 'undefined') {
-  let enabled = true;
+  let enabled = false;
   const settingsStr = localStorage.getItem(APP_SETTINGS_STORAGE_KEY);
 
   if (settingsStr) {
     const parsed = JSON.parse(settingsStr);
-    enabled = parsed.enableTelemetry;
+    enabled = parsed.enableTelemetry === true;
   }
 
   if (!enabled) {

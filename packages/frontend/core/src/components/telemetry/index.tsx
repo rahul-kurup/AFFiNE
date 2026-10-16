@@ -7,14 +7,14 @@ export function Telemetry() {
   const settings = useAtomValue(appSettingAtom);
 
   useEffect(() => {
-    if (settings.enableTelemetry === false) {
-      sentry.disable();
-      tracker.opt_out_tracking();
-      return;
-    } else {
+    if (settings.enableTelemetry === true) {
       sentry.enable();
       tracker.opt_in_tracking();
       return enableAutoTrack(document.body, tracker.track);
+    } else {
+      sentry.disable();
+      tracker.opt_out_tracking();
+      return;
     }
   }, [settings.enableTelemetry]);
 
