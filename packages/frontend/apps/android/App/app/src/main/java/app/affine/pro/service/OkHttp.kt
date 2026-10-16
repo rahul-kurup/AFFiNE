@@ -18,6 +18,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
 
+private val proxyHeadersInterceptor = okhttp3.Interceptor { chain ->
+    val builder = chain.request().newBuilder()
+    ProxyHeadersStore.apply(builder)
+    chain.proceed(builder.build())
+}
+
 object OkHttp {
 
     val client = OkHttpClient.Builder()
@@ -34,6 +40,7 @@ object OkHttp {
                 CookieStore.saveCookies(url.host, cookies)
             }
         })
+        .addInterceptor(proxyHeadersInterceptor)
         .addInterceptor {
             it.proceed(
                 it.request()
@@ -54,6 +61,7 @@ object OkHttp {
 object AuthHttp {
     val client = OkHttpClient.Builder()
         .cookieJar(CookieJar.NO_COOKIES)
+        .addInterceptor(proxyHeadersInterceptor)
         .addInterceptor {
             it.proceed(
                 it.request()

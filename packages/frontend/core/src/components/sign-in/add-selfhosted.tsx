@@ -8,6 +8,7 @@ import {
 } from '@affine/component/auth-components';
 import { useAsyncCallback } from '@affine/core/components/hooks/affine-async-hooks';
 import { ServersService } from '@affine/core/modules/cloud';
+import { ProxyHeadersEditor } from '@affine/core/modules/proxy-headers/views/editor';
 import { UserFriendlyError } from '@affine/error';
 import { Trans, useI18n } from '@affine/i18n';
 import { useService } from '@toeverything/infra';
@@ -148,6 +149,20 @@ export const AddSelfhostedStep = ({
         >
           {t['com.affine.auth.sign.add-selfhosted.connect-button']()}
         </Button>
+        <div style={{ marginTop: 16, width: '100%' }}>
+          <div
+            style={{
+              marginBottom: 12,
+              fontSize: 14,
+              fontWeight: 500,
+            }}
+          >
+            {t['com.affine.mobile.setting.proxy-headers.group']()}
+          </div>
+          <div style={{ maxHeight: 280, width: '100%' }}>
+            <ProxyHeadersEditor />
+          </div>
+        </div>
       </AuthContent>
       <AuthFooter>
         <div className={styles.authMessage}>

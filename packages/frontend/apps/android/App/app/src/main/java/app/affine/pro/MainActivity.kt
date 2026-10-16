@@ -25,6 +25,7 @@ import app.affine.pro.plugin.HashCashPlugin
 import app.affine.pro.plugin.NbStorePlugin
 import app.affine.pro.plugin.MobileBackPlugin
 import app.affine.pro.plugin.PreviewPlugin
+import app.affine.pro.plugin.ProxyHeadersPlugin
 import app.affine.pro.service.GraphQLService
 import app.affine.pro.service.SSEService
 import app.affine.pro.service.WebService
@@ -61,6 +62,7 @@ class MainActivity : BridgeActivity(), AIButtonPlugin.Callback, AFFiNEThemePlugi
                 NbStorePlugin::class.java,
                 MobileBackPlugin::class.java,
                 PreviewPlugin::class.java,
+                ProxyHeadersPlugin::class.java,
             )
         )
     }
@@ -140,7 +142,7 @@ class MainActivity : BridgeActivity(), AIButtonPlugin.Callback, AFFiNEThemePlugi
                 // Debug builds may point CAP_SERVER_URL at an HTTP dev server; release builds
                 // should keep mixed content blocked.
                 mixedContentMode = if (BuildConfig.DEBUG) {
-                    WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+                    WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                 } else {
                     WebSettings.MIXED_CONTENT_NEVER_ALLOW
                 }

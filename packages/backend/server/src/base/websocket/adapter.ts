@@ -6,7 +6,6 @@ import { Server, Socket } from 'socket.io';
 import { Config } from '../config';
 import {
   buildCorsAllowedOrigins,
-  CORS_ALLOWED_HEADERS,
   CORS_ALLOWED_METHODS,
   corsOriginCallback,
 } from '../cors';
@@ -49,7 +48,6 @@ export class SocketIoAdapter extends IoAdapter {
         },
         credentials: true,
         methods: CORS_ALLOWED_METHODS,
-        allowedHeaders: CORS_ALLOWED_HEADERS,
       },
     });
 

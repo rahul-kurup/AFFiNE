@@ -17,6 +17,7 @@ import { ExperimentalFeatureSetting } from './experimental';
 import { SettingGroup } from './group';
 import { OthersGroup } from './others';
 import { DeleteAccount } from './others/delete-account';
+import { ProxyHeadersGroup } from './proxy-headers';
 import { RowLayout } from './row.layout';
 import * as styles from './style.css';
 import { PlansGroup } from './subscription';
@@ -125,6 +126,7 @@ const MobileSetting = ({
       <AppearanceGroup />
       <AboutGroup />
       <ExperimentalFeatureSetting />
+      <ProxyHeadersGroup />
       <SupportGroup />
       <OthersGroup />
       <DangerZoneGroup onDeleteFinished={onDeleteFinished} />

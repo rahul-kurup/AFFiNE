@@ -3076,6 +3076,38 @@ export function useAFFiNEI18N(): {
       */
     ["com.affine.mobile.setting.header-title"](): string;
     /**
+      * `Network`
+      */
+    ["com.affine.mobile.setting.proxy-headers.group"](): string;
+    /**
+      * `Proxy headers`
+      */
+    ["com.affine.mobile.setting.proxy-headers.title"](): string;
+    /**
+      * `Add custom HTTP headers that will be sent with every network request. Useful for proxies, gateways and access control.`
+      */
+    ["com.affine.mobile.setting.proxy-headers.description"](): string;
+    /**
+      * `Header name`
+      */
+    ["com.affine.mobile.setting.proxy-headers.name-placeholder"](): string;
+    /**
+      * `Header value`
+      */
+    ["com.affine.mobile.setting.proxy-headers.value-placeholder"](): string;
+    /**
+      * `Add header`
+      */
+    ["com.affine.mobile.setting.proxy-headers.add"](): string;
+    /**
+      * `No proxy headers configured`
+      */
+    ["com.affine.mobile.setting.proxy-headers.empty"](): string;
+    /**
+      * `Proxy headers saved`
+      */
+    ["com.affine.mobile.setting.proxy-headers.saved"](): string;
+    /**
       * `Star us on GitHub`
       */
     ["com.affine.mobile.setting.others.github"](): string;

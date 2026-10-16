@@ -21,6 +21,7 @@ const config: CapacitorConfig & AppConfig = {
   affineVersion: packageJson.version,
   android: {
     path: 'App',
+    allowMixedContent: process.env.CAP_ALLOW_MIXED_CONTENT === 'true',
     buildOptions: {
       keystorePath: join(__dirname, 'affine.keystore'),
       keystorePassword: process.env.AFFINE_ANDROID_KEYSTORE_PASSWORD,

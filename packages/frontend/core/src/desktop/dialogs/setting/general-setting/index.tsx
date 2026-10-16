@@ -9,6 +9,7 @@ import {
   FolderIcon,
   InformationIcon,
   KeyboardIcon,
+  LinkIcon,
   MeetingIcon,
   NotificationIcon,
   PenIcon,
@@ -28,6 +29,7 @@ import { PaymentIcon, UpgradeIcon } from './icons';
 import { MeetingsSettings } from './meetings';
 import { NotificationSettings } from './notifications';
 import { AFFiNEPricingPlans } from './plans';
+import { ProxyHeadersSettings } from './proxy-headers';
 import { Shortcuts } from './shortcuts';
 
 export type GeneralSettingList = SettingSidebarItem[];
@@ -75,6 +77,12 @@ export const useGeneralSettingList = (): GeneralSettingList => {
         title: t['com.affine.keyboardShortcuts.title'](),
         icon: <KeyboardIcon />,
         testId: 'shortcuts-panel-trigger',
+      },
+      {
+        key: 'proxy-headers',
+        title: t['com.affine.mobile.setting.proxy-headers.title'](),
+        icon: <LinkIcon />,
+        testId: 'proxy-headers-panel-trigger',
       },
     ];
     if (loggedIn) {
@@ -178,6 +186,8 @@ export const GeneralSetting = ({
       return <AppearanceSettings />;
     case 'meetings':
       return <MeetingsSettings />;
+    case 'proxy-headers':
+      return <ProxyHeadersSettings />;
     case 'about':
       return <AboutAffine />;
     case 'plans':

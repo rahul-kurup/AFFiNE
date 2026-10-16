@@ -72,6 +72,7 @@ import {
   clearEndpointSession,
   getValidAccessToken,
 } from './proxy';
+import { installAndroidProxyHeaders } from './proxy-headers';
 
 const storeManagerClient = createStoreManagerClient();
 setTelemetryTransport(storeManagerClient.telemetry);
@@ -85,6 +86,7 @@ configureBrowserWorkbenchModule(framework);
 configureLocalStorageStateStorageImpls(framework);
 configureBrowserWorkspaceFlavours(framework);
 configureMobileModules(framework);
+installAndroidProxyHeaders(framework);
 framework.impl(NbstoreProvider, {
   realtime: storeManagerClient.realtime,
   openStore(key, options) {

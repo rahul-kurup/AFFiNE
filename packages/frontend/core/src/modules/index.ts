@@ -50,6 +50,7 @@ import { configurePaywallModule } from './paywall';
 import { configurePDFModule } from './pdf';
 import { configurePeekViewModule } from './peek-view';
 import { configurePermissionsModule } from './permissions';
+import { configureProxyHeadersModule } from './proxy-headers';
 import { configureQuickSearchModule } from './quicksearch';
 import { configSearchMenuModule } from './search-menu';
 import { configureShareDocsModule } from './share-doc';
@@ -136,4 +137,5 @@ export function configureCommonModules(framework: Framework) {
   configureDocSummaryModule(framework);
   configurePaywallModule(framework);
   configureIconPickerModule(framework);
+  configureProxyHeadersModule(framework);
 }
