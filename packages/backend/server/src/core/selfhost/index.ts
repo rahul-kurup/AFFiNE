@@ -7,9 +7,10 @@ import { CustomSetupController } from './controller';
 import { SelfhostGuard } from './guard';
 import { SetupMiddleware } from './setup';
 import { StaticFilesResolver } from './static';
+import { ProxyHeadersModule } from '../proxy-headers';
 
 @Module({
-  imports: [AuthModule, UserModule, ServerConfigModule],
+  imports: [AuthModule, UserModule, ServerConfigModule, ProxyHeadersModule],
   providers: [SetupMiddleware, StaticFilesResolver, SelfhostGuard],
   controllers: [CustomSetupController],
 })

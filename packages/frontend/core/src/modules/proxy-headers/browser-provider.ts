@@ -81,13 +81,23 @@ export class BrowserProxyHeadersProvider implements ProxyHeadersProvider {
     return Promise.resolve(this.cache);
   }
 
-  set(headers: ProxyHeaders): Promise<void> {
+  async set(headers: ProxyHeaders): Promise<void> {
     this.cache = headers;
     if (this.hasStorage) {
       writeLocalStorage(headers);
     }
     this.broadcast();
-    return Promise.resolve();
+    try {
+      await fetch('/api/proxy-headers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ headers }),
+      }).catch(() => {});
+    } catch {
+      // ignore
+    }
+    return;
   }
 }
 

@@ -5,7 +5,11 @@ import { ProxyHeadersProvider } from './provider';
 import { ProxyHeadersService } from './service';
 
 export { browserProxyHeadersProvider } from './browser-provider';
-export { installProxyHeadersProxy, setProxyHeadersProvider } from './install';
+export {
+  applyInjectedProxyHeaders,
+  installProxyHeadersProxy,
+  setProxyHeadersProvider,
+} from './install';
 export { ProxyHeadersProvider } from './provider';
 export { ProxyHeadersService } from './service';
 export type { ProxyHeader, ProxyHeaders } from './types';

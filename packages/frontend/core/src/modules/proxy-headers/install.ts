@@ -265,6 +265,26 @@ class ProxyHeadersEventSource extends EventTarget {
   }
 }
 
+/**
+ * The server injects the proxy headers configured by the AFFiNE client into the
+ * standalone admin console HTML as `window.__AFFINE_PROXY_HEADERS__`. Apply them
+ * to the given provider on boot so cross-origin (admin) requests carry them too.
+ *
+ * Lives here (not in the barrel `index.ts`) so the worker, which imports this
+ * module transitively via `bootstrap/browser`, does not pull in the editor UI.
+ */
+export function applyInjectedProxyHeaders(provider: ProxyHeadersProvider) {
+  try {
+    const injected = (globalThis as { __AFFINE_PROXY_HEADERS__?: unknown })
+      .__AFFINE_PROXY_HEADERS__;
+    if (Array.isArray(injected)) {
+      void provider.set(injected as ProxyHeaders).catch(() => {});
+    }
+  } catch {
+    // ignore
+  }
+}
+
 export function installProxyHeadersProxy() {
   if (installed) return;
   installed = true;

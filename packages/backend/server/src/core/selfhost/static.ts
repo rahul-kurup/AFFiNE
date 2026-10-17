@@ -7,6 +7,7 @@ import { static as serveStatic } from 'express';
 import isMobile from 'is-mobile';
 
 import { Config } from '../../base';
+import { ProxyHeadersService } from '../proxy-headers';
 import { SetupMiddleware } from './setup';
 
 @Injectable()
@@ -14,7 +15,8 @@ export class StaticFilesResolver implements OnModuleInit {
   constructor(
     private readonly config: Config,
     private readonly adapterHost: HttpAdapterHost,
-    private readonly check: SetupMiddleware
+    private readonly check: SetupMiddleware,
+    private readonly proxyHeaders: ProxyHeadersService
   ) {}
 
   onModuleInit() {
@@ -64,14 +66,30 @@ export class StaticFilesResolver implements OnModuleInit {
     app.get(
       [basePath + '/admin', basePath + '/admin/*path'],
       this.check.use,
-      (_req, res) => {
-        res.sendFile(
-          join(
-            staticPath,
-            'admin',
-            env.selfhosted ? 'selfhost.html' : 'index.html'
-          )
+      async (_req, res) => {
+        const filePath = join(
+          staticPath,
+          'admin',
+          env.selfhosted ? 'selfhost.html' : 'index.html'
         );
+        try {
+          const fs = await import('node:fs/promises');
+          let content = await fs.readFile(filePath, 'utf8');
+          const headers = await this.proxyHeaders.get();
+          const script =
+            '<script>window.__AFFINE_PROXY_HEADERS__ = ' +
+            JSON.stringify(headers) +
+            ';</script>';
+          if (content.includes('</head>')) {
+            content = content.replace('</head>', script + '</head>');
+          } else {
+            content = script + content;
+          }
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.send(content);
+        } catch {
+          res.sendFile(filePath);
+        }
       }
     );
     // END REGION

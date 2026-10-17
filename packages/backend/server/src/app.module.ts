@@ -44,6 +44,7 @@ import {
   NotificationWorkerModule,
 } from './core/notification';
 import { PermissionModule } from './core/permission';
+import { ProxyHeadersModule } from './core/proxy-headers';
 import { QuotaModule } from './core/quota';
 import { RealtimeGatewayModule, RealtimeModule } from './core/realtime';
 import { SelfhostModule } from './core/selfhost';
@@ -190,6 +191,7 @@ export function buildAppModule(env: Env) {
     .use(ServerConfigModule, QuotaModule, DocStorageModule)
     .useIf(() => env.isWorker, StorageWorkerModule)
     .useIf(() => !workerOnly, FeatureModule, NotificationModule, MailModule)
+    .useIf(() => !workerOnly, ProxyHeadersModule)
     // renderer server and front server
     .useIf(() => env.flavors.renderer || env.flavors.front, DocRendererModule)
     // sync server and front server

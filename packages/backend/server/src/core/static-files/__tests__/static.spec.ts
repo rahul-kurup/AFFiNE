@@ -38,7 +38,8 @@ async function createApp(basePath = '') {
       httpAdapter: {
         getInstance: () => app,
       },
-    } as any
+    } as any,
+    { get: async () => [] } as any
   );
   resolver.onModuleInit();
   return app;

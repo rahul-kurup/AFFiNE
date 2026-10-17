@@ -6,6 +6,7 @@ import type { Application, Request, Response } from 'express';
 import { static as serveStatic } from 'express';
 
 import { Config } from '../../base';
+import { ProxyHeadersService } from '../proxy-headers';
 import { isMobileRequest } from '../utils/user-agent';
 
 const staticPathRegex = /^\/(_plugin|assets|imgs|js|plugins|static)\//;
@@ -24,7 +25,8 @@ function isMissingStaticAssetError(error: unknown) {
 export class StaticFilesResolver implements OnModuleInit {
   constructor(
     private readonly config: Config,
-    private readonly adapterHost: HttpAdapterHost
+    private readonly adapterHost: HttpAdapterHost,
+    private readonly proxyHeaders: ProxyHeadersService
   ) {}
 
   onModuleInit() {
@@ -86,9 +88,30 @@ export class StaticFilesResolver implements OnModuleInit {
 
     // /admin
     app.use(basePath + '/admin', adminAsset);
-    app.get([basePath + '/admin', basePath + '/admin/*path'], (_req, res) => {
-      res.sendFile(join(adminPath, 'index.html'));
-    });
+    app.get(
+      [basePath + '/admin', basePath + '/admin/*path'],
+      async (_req, res) => {
+        try {
+          const fs = await import('node:fs/promises');
+          const filePath = join(adminPath, 'index.html');
+          let content = await fs.readFile(filePath, 'utf8');
+          const headers = await this.proxyHeaders.get();
+          const script =
+            '<script>window.__AFFINE_PROXY_HEADERS__ = ' +
+            JSON.stringify(headers) +
+            ';</script>';
+          if (content.includes('</head>')) {
+            content = content.replace('</head>', script + '</head>');
+          } else {
+            content = script + content;
+          }
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+          res.send(content);
+        } catch {
+          res.sendFile(join(adminPath, 'index.html'));
+        }
+      }
+    );
 
     // /_plugin|/assets|/imgs|/js|/plugins|/static
     app.use(rootPath, (req, res, next) => {
